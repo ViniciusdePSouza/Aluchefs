@@ -13,7 +13,8 @@ export const defaultTheme = {
         PINK_200: '##ffc0cb',
         PINK_100: '#FFF1EB',
 
-        BLUE: '#0D77AA',
+        BLUE_300: '#0D77AA',
+        BLUE_100: '#ACE0F9',
 
         YELLOW: '#FFC107',
     }
