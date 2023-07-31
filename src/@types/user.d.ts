@@ -1,7 +1,6 @@
 export interface UserProps {
-    id: number;
-    emai: string;
     name: string;
+    email: string;
     password: string;
-    avatar?: string;
+    confirmPassword: string;
 }

@@ -28,6 +28,12 @@ export const Form = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 2.5rem;
+`
 
-  gap: 4.4rem;
+export const FormValidatorAdvisor = styled.p`
+    color: ${({theme}) => theme.COLORS.RED};
+
+    font-weight: 600;
+    font-size: 1.2rem;
 `

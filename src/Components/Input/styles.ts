@@ -6,9 +6,8 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
 
-
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
   input {
     all: unset;
@@ -20,7 +19,7 @@ export const Container = styled.div`
 
     font-weight: 900;
 
-    padding: 0 .5rem;
+    padding: 0 0.5rem;
 
     border-bottom: 1px solid ${({ theme }) => theme.COLORS.GRAY_200};
   }
