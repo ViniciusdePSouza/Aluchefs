@@ -3,7 +3,6 @@ import { Container, Form, FormValidatorAdvisor } from "./styles";
 import logo from "../../assets/logo.svg";
 import { Input } from "../../Components/Input";
 import { Button } from "../../Components/Button";
-
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -11,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { UserProps } from "../../@types/user";
 import { api } from "../../services/api";
 
-import { AuthResponse, LogInProps, useAuth } from "../../hooks/authContext";
+import { AuthResponse, useAuth } from "../../hooks/authContext";
 import { useNavigate } from "react-router-dom";
 
 const registerFormSchema = z
@@ -36,9 +35,9 @@ const registerFormSchema = z
 
 type RegisterFormData = z.infer<typeof registerFormSchema>;
 
-export function SignUp() {
-    const { signIn } = useAuth();
-    
+export function SignUp() {  
+    const { signIn } = useAuth()
+  
     const navigate = useNavigate()
     
     const {
@@ -57,11 +56,8 @@ export function SignUp() {
         password,
       });
 
-      const payload: LogInProps = {
-        identifier: email,
-        password,
-      };
-      signIn(payload);
+      signIn({ identifier: email, password});
+
       navigate('/')
     } catch (e) {
       console.log(e);
