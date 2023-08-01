@@ -12,29 +12,42 @@ import { SignOut, User } from "phosphor-react";
 import { defaultTheme } from "../../styles/theme/default";
 import { CategoryButton } from "../../Components/CategoryButton";
 import { api } from "../../services/api";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+interface CategoryProps {
+  attributes: {
+    name: string;
+    createdAt: Date;
+    updatedAt: Date;
+  };
+  id: number;
+}
 
 export function Home() {
+  const [allCategories, setAllCategories] = useState<CategoryProps[]>([]);
+
   function handleAddCategoryFilter(category: string) {
     console.log(category);
   }
 
-  async function fetchCategories(){
-    const response = await api.get('/api/categories')
+  async function fetchCategories() {
+    const response = await api.get("/api/categories");
 
-    return response.data
+    return response.data;
   }
 
   useEffect(() => {
     async function populateCategories() {
-        const response = fetchCategories()
+      const response = await fetchCategories();
 
-        console.log(response)
+      setAllCategories(response.data);
     }
+    populateCategories();
+  }, []);
 
-    populateCategories()
-  }, [])
-
+  useEffect(() => {
+    console.log(allCategories);
+  }, [allCategories]);
 
   return (
     <Container>
@@ -51,26 +64,14 @@ export function Home() {
       </HomeHeader>
 
       <CategoryDiv>
-        <CategoryButton
-          title="Salad"
-          onClick={() => handleAddCategoryFilter('Salad')}
-        />
-        <CategoryButton
-          title="Breakfeast"
-          onClick={() => handleAddCategoryFilter('Breakfeast')}
-        />
-        <CategoryButton
-          title="Lunch"
-          onClick={() => handleAddCategoryFilter('Lunch')}
-        />
-        <CategoryButton
-          title="Drink"
-          onClick={() => handleAddCategoryFilter('Drink')}
-        />
-        <CategoryButton
-          title="Dinner"
-          onClick={() => handleAddCategoryFilter('Dinner')}
-        />
+        {allCategories.length > 0 &&
+          allCategories.map((category) => (
+            <CategoryButton
+              title={category.attributes.name}
+              key={category.id}
+              onClick={() => handleAddCategoryFilter(category.attributes.name)}
+            />
+          ))}
       </CategoryDiv>
     </Container>
   );

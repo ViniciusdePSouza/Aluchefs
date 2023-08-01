@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useContext, useState } from "react";
+import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { api } from "../services/api";
 import { LoggedInUserProps } from "../@types/loginUser";
 
@@ -32,16 +32,11 @@ function AuthProvider({ children }: AuthProviderProps) {
       identifier,
       password,
     });
+
     const { user, jwt } = response.data;
 
     localStorage.setItem("@aluchef:user", JSON.stringify(user));
     localStorage.setItem("@aluchef:token", jwt);
-
-    api.defaults.headers.common["Authorization"] = `Bearer ${jwt}`;
-    api.defaults.headers.common["Connection"] = `keep-alive`;
-    api.defaults.headers.common[
-      "Content-Security-Policy"
-    ] = `connect-src 'self' https:;img-src 'self' data: blob: https://market-assets.strapi.io;media-src 'self' data: blob:;default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline'`;
 
     setData({ user, jwt });
   }
@@ -52,6 +47,18 @@ function AuthProvider({ children }: AuthProviderProps) {
 
     setData({} as AuthResponse);
   }
+
+  useEffect(() => {
+    const token = localStorage.getItem('@aluchef:token')
+    const user = localStorage.getItem('@aluchef:user')
+
+    if (token && user) {
+        setData({
+            jwt: token,
+            user: JSON.parse(user)
+        })
+    }
+}, [])
 
   return (
     <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
