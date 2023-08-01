@@ -25,9 +25,14 @@ interface CategoryProps {
 
 export function Home() {
   const [allCategories, setAllCategories] = useState<CategoryProps[]>([]);
+  const [categoriesFilterArray, setCategoriesFilterArray] = useState<string[]>([])
 
   function handleAddCategoryFilter(category: string) {
-    console.log(category);
+    if(!categoriesFilterArray.includes(category)){
+      setCategoriesFilterArray((prevState) => [...prevState, category]);
+    }
+
+    console.log(categoriesFilterArray)
   }
 
   async function fetchCategories() {
