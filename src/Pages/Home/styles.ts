@@ -25,8 +25,12 @@ export const IconsNav = styled.nav`
   gap: 1.5rem;
 `;
 
-export const NavButtons = styled.button`
+export const IconButtons = styled.button`
   all: unset;
+
+  display:flex;
+  align-items: center;
+  justify-content: center;
 
   cursor: pointer;
 
@@ -64,3 +68,49 @@ export const CategoryDiv = styled.div`
     border-radius: 4px;
   }
 `;
+
+export const BodySection = styled.section`
+  width: 100%;
+  height: 100%;
+
+  padding: 0 2.5rem;
+`
+
+export const SearchBar = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  gap: 1rem;
+
+  background-color: ${({theme}) => theme.COLORS.BLUE_100};
+
+  padding: 0 1.6rem;
+
+  border-radius: 16px;
+
+  margin-top: 1.8rem;
+`
+
+export const RecipeSection = styled.div`
+  width: 100%;
+  max-width: 100vw;
+
+  margin-top: 2rem;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2rem;
+  
+  border-radius: 8px;
+
+  
+  @media (min-width: 768px) {
+    max-width: 100vw;
+      display: flex;
+      flex-wrap: wrap; 
+      justify-content: flex-start;
+      align-items: center;
+      gap: 2rem;
+   }
+`
