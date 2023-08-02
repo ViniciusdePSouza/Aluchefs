@@ -87,6 +87,7 @@ export function Home() {
 
   function handleResetSearch() {
     setSearchResults([]);
+    setCategoriesFilterArray([])
   }
 
   async function fetchCategories() {
