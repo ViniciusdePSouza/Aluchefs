@@ -29,8 +29,9 @@ interface CategoryProps {
 }
 
 interface RecipesProps {
- id: number;
- photo: string
+  id: number;
+  photo: string;
+  title: string;
 }
 
 export function Home() {
@@ -38,7 +39,9 @@ export function Home() {
   const [categoriesFilterArray, setCategoriesFilterArray] = useState<string[]>(
     []
   );
-  const [recipes, setRecipes] = useState<RecipesProps[]>([])
+  const [recipes, setRecipes] = useState<RecipesProps[]>([]);
+  const [search, setSearch] = useState("");
+  const [searchResults, setSearchResults] = useState<RecipesProps[]>([]);
 
   function handleAddCategoryFilter(category: string) {
     if (!categoriesFilterArray.includes(category)) {
@@ -55,9 +58,9 @@ export function Home() {
   }
 
   async function fetchRecipes() {
-    const response = await api.get("/api/recipes?populate=*")
+    const response = await api.get("/api/recipes?populate=*");
 
-    return response.data; 
+    return response.data;
   }
 
   useEffect(() => {
@@ -72,18 +75,32 @@ export function Home() {
     async function populateRecipes() {
       const response = await fetchRecipes();
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const recipesArray = response.data.map((recipes: any) => {
         return {
           id: recipes.id,
-          photo: recipes.attributes.thumb.data.attributes.url
-        }
-      })
+          photo: recipes.attributes.thumb.data.attributes.url,
+          title: recipes.attributes.title,
+        };
+      });
 
       setRecipes(recipesArray);
-
     }
     populateRecipes();
   }, []);
+
+  useEffect(() => {
+    if (search.trim() === "") {
+      setSearchResults([]);
+      return;
+    }
+
+    const filteredRecipeByName = recipes.filter((recipe) =>
+      recipe.title.toLowerCase().includes(search.toLowerCase())
+    );
+
+    setSearchResults(filteredRecipeByName);
+  }, [search, recipes]);
 
   return (
     <Container>
@@ -112,24 +129,32 @@ export function Home() {
       <BodySection>
         <SearchBar>
           <MagnifyingGlass size={18} />
-          <Input placeholder="Pesquisar" />
+          <Input
+            placeholder="Pesquisar"
+            onChange={(e) => setSearch(e.target.value)}
+          />
           <IconButtons>
             <X size={18} />
           </IconButtons>
         </SearchBar>
 
         <RecipeSection>
-          {
-            recipes.length > 0 && recipes.map((recipes) => (
-
-              <RecipeCard key={recipes.id} img={`${BASE_URL}${recipes.photo}`}/>
-            ))
-          }
-
+          {searchResults.length > 0
+            ? searchResults.map((recipe) => (
+                <RecipeCard
+                  key={recipe.id}
+                  img={`${BASE_URL}${recipe.photo}`}
+                />
+              ))
+            : recipes.length > 0 &&
+              recipes.map((recipe) => (
+                <RecipeCard
+                  key={recipe.id}
+                  img={`${BASE_URL}${recipe.photo}`}
+                />
+              ))}
         </RecipeSection>
       </BodySection>
-
-      
     </Container>
   );
 }
