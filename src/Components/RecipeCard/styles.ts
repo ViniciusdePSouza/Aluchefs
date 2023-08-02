@@ -8,8 +8,9 @@ export const Container = styled.div`
 
    flex-shrink: 0;
 
+   cursor: pointer;
    
-   >img {
+   > img {
    object-fit: cover;
     width: 14.5rem;
     height: 14.5rem;
