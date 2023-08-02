@@ -26,6 +26,8 @@ import { Input } from "../../Components/Input";
 import { RecipeCard } from "../../Components/RecipeCard";
 import { useAuth } from "../../hooks/authContext";
 
+import { useNavigate } from "react-router-dom";
+
 interface CategoryProps {
   attributes: {
     name: string;
@@ -60,6 +62,8 @@ export function Home() {
 
   const { signOut } = useAuth();
 
+  const navigate = useNavigate()
+
   function filterRecipesByCategory(
     recipes: RecipesProps[],
     categoriesFilterArray: string[]
@@ -88,6 +92,10 @@ export function Home() {
   function handleResetSearch() {
     setSearchResults([]);
     setCategoriesFilterArray([])
+  }
+
+  function handleGoToDetails(id: number) {
+    navigate(`/details/${id}`)
   }
 
   async function fetchCategories() {
@@ -199,6 +207,7 @@ export function Home() {
                 <RecipeCard
                   key={recipe.id}
                   img={`${BASE_URL}${recipe.photo}`}
+                  onClick={() => handleGoToDetails(recipe.id)}
                 />
               ))}
         </RecipeSection>
