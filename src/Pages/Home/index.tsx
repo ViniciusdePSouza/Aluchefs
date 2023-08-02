@@ -18,6 +18,7 @@ import { BASE_URL, api } from "../../services/api";
 import { useEffect, useState } from "react";
 import { Input } from "../../Components/Input";
 import { RecipeCard } from "../../Components/RecipeCard";
+import { useAuth } from "../../hooks/authContext";
 
 interface CategoryProps {
   attributes: {
@@ -43,12 +44,18 @@ export function Home() {
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState<RecipesProps[]>([]);
 
+  const { signOut } = useAuth()
+
   function handleAddCategoryFilter(category: string) {
     if (!categoriesFilterArray.includes(category)) {
       setCategoriesFilterArray((prevState) => [...prevState, category]);
     }
 
     console.log(categoriesFilterArray);
+  }
+
+  function handleSignOut() {
+    signOut()
   }
 
   async function fetchCategories() {
@@ -110,7 +117,7 @@ export function Home() {
           <IconButtons>
             <User size={32} color={defaultTheme.COLORS.BLUE_300} />
           </IconButtons>
-          <IconButtons>
+          <IconButtons onClick={handleSignOut}>
             <SignOut size={32} color={defaultTheme.COLORS.BLUE_300} />
           </IconButtons>
         </IconsNav>
