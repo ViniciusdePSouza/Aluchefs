@@ -28,7 +28,7 @@ export const IconsNav = styled.nav`
 export const IconButtons = styled.button`
   all: unset;
 
-  display:flex;
+  display: flex;
   align-items: center;
   justify-content: center;
 
@@ -48,7 +48,7 @@ export const CategoryDiv = styled.div`
   display: flex;
   align-items: center;
   overflow-x: auto;
-  padding:  1.6rem;
+  padding: 1.6rem;
 
   gap: 1.2rem;
 
@@ -74,7 +74,7 @@ export const BodySection = styled.section`
   height: 100%;
 
   padding: 0 2.5rem;
-`
+`;
 
 export const SearchBar = styled.div`
   width: 100%;
@@ -83,14 +83,14 @@ export const SearchBar = styled.div`
 
   gap: 1rem;
 
-  background-color: ${({theme}) => theme.COLORS.BLUE_100};
+  background-color: ${({ theme }) => theme.COLORS.BLUE_100};
 
   padding: 0 1.6rem;
 
   border-radius: 16px;
 
   margin-top: 1.8rem;
-`
+`;
 
 export const RecipeSection = styled.div`
   width: 100%;
@@ -101,16 +101,29 @@ export const RecipeSection = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 2rem;
-  
+
   border-radius: 8px;
 
-  
   @media (min-width: 768px) {
     max-width: 100vw;
-      display: flex;
-      flex-wrap: wrap; 
-      justify-content: flex-start;
-      align-items: center;
-      gap: 2rem;
-   }
-`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2rem;
+  }
+`;
+
+export const ResetButton = styled.button`
+  all: unset;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+
+  border-radius: 8px;
+
+  padding: 0.5rem;
+`;

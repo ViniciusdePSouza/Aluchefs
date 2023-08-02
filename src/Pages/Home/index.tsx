@@ -7,10 +7,16 @@ import {
   SearchBar,
   BodySection,
   RecipeSection,
+  ResetButton,
 } from "./styles";
 
 import logo from "../../assets/logo2.svg";
-import { MagnifyingGlass, SignOut, User, X } from "phosphor-react";
+import {
+  ClockClockwise,
+  MagnifyingGlass,
+  SignOut,
+  User,
+} from "phosphor-react";
 
 import { defaultTheme } from "../../styles/theme/default";
 import { CategoryButton } from "../../Components/CategoryButton";
@@ -33,6 +39,14 @@ interface RecipesProps {
   id: number;
   photo: string;
   title: string;
+  categoryName: {
+    id: number;
+    attributes: {
+      name: string;
+      createdAt: Date;
+      updatedAt: Date;
+    };
+  };
 }
 
 export function Home() {
@@ -44,18 +58,35 @@ export function Home() {
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState<RecipesProps[]>([]);
 
-  const { signOut } = useAuth()
+  const { signOut } = useAuth();
+
+  function filterRecipesByCategory(
+    recipes: RecipesProps[],
+    categoriesFilterArray: string[]
+  ) {
+    return recipes.filter((recipe) => {
+      return (
+        recipe.categoryName &&
+        categoriesFilterArray.includes(recipe.categoryName.attributes.name)
+      );
+    });
+  }
 
   function handleAddCategoryFilter(category: string) {
     if (!categoriesFilterArray.includes(category)) {
-      setCategoriesFilterArray((prevState) => [...prevState, category]);
+      setCategoriesFilterArray((prevState) => {
+        const updatedArray = [...prevState, category];
+        return updatedArray;
+      });
     }
-
-    console.log(categoriesFilterArray);
   }
 
   function handleSignOut() {
-    signOut()
+    signOut();
+  }
+
+  function handleResetSearch() {
+    setSearchResults([]);
   }
 
   async function fetchCategories() {
@@ -71,6 +102,14 @@ export function Home() {
   }
 
   useEffect(() => {
+    const filteredRecipeArray = filterRecipesByCategory(
+      recipes,
+      categoriesFilterArray
+    );
+    setSearchResults(filteredRecipeArray);
+  }, [categoriesFilterArray, recipes])
+
+  useEffect(() => {
     async function populateCategories() {
       const response = await fetchCategories();
 
@@ -78,6 +117,7 @@ export function Home() {
     }
     populateCategories();
   }, []);
+
   useEffect(() => {
     async function populateRecipes() {
       const response = await fetchRecipes();
@@ -88,9 +128,9 @@ export function Home() {
           id: recipes.id,
           photo: recipes.attributes.thumb.data.attributes.url,
           title: recipes.attributes.title,
+          categoryName: recipes.attributes.category.data,
         };
       });
-
       setRecipes(recipesArray);
     }
     populateRecipes();
@@ -140,9 +180,9 @@ export function Home() {
             placeholder="Pesquisar"
             onChange={(e) => setSearch(e.target.value)}
           />
-          <IconButtons>
-            <X size={18} />
-          </IconButtons>
+        <ResetButton onClick={handleResetSearch}>
+          <ClockClockwise size={24} />
+        </ResetButton>
         </SearchBar>
 
         <RecipeSection>
