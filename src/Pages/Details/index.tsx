@@ -18,8 +18,10 @@ import { AppHeader } from "../../Components/AppHeader";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { BASE_URL, api } from "../../services/api";
+import { useFavs } from "../../hooks/favoritesContext";
 
 interface RecipeProps {
+    id: number;
   title: string;
   photo: string;
   ingredients: string[];
@@ -28,6 +30,18 @@ interface RecipeProps {
 
 export function Details() {
   const [recipe, setRecipe] = useState<RecipeProps>({} as RecipeProps);
+
+  const { addNewFavorite } = useFavs()
+
+  function handleAddNewFavorite(){
+    const newFavRecipe = {
+        id: recipe.id,
+        photo: recipe.photo,
+        title: recipe.title,
+    }
+
+    addNewFavorite(newFavRecipe)
+  }
 
   async function fetchRecipeDetails() {
     const response = await api.get(`/api/recipes/${params.id}?populate=*`);
@@ -56,6 +70,7 @@ export function Details() {
       const ingredientsArray = transformToArray(data.attributes.ingredients);
 
       const recipeDetails = {
+        id: data.id,
         title: data.attributes.title,
         photo: data.attributes.thumb.data.attributes.url,
         ingredients: ingredientsArray,
@@ -75,7 +90,7 @@ export function Details() {
         <InfoDiv>
           <h1>{recipe.title}</h1>
           <p>Por: Fulano de tal</p>
-          <IconButton>
+          <IconButton onClick={handleAddNewFavorite}>
             <Heart size={24} color={defaultTheme.COLORS.PINK_300} />
           </IconButton>
         </InfoDiv>

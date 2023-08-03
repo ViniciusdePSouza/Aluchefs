@@ -99,5 +99,29 @@ export const NavButton = styled.button`
 
   border-radius: 16px;
 
-padding: 1rem;
+  padding: 1rem;
+`;
+
+export const FavoritesSection = styled.section`
+  width: 100%;
+  max-width: 100vw;
+
+  margin-top: 2rem;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2rem;
+
+  padding: 1rem;
+
+  border-radius: 8px;
+
+  @media (min-width: 768px) {
+    max-width: 100vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2rem;
+  }
 `;

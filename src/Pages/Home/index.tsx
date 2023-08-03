@@ -204,6 +204,7 @@ export function Home() {
                 <RecipeCard
                   key={recipe.id}
                   img={`${BASE_URL}${recipe.photo}`}
+                  onClick={() => handleGoToDetails(recipe.id)}
                 />
               ))
             : recipes.length > 0 &&
