@@ -64,6 +64,10 @@ export function Home() {
 
   const navigate = useNavigate()
 
+  function handleGoToProfile() {
+    navigate('/profile')
+  }
+
   function filterRecipesByCategory(
     recipes: RecipesProps[],
     categoriesFilterArray: string[]
@@ -163,7 +167,7 @@ export function Home() {
       <HomeHeader>
         <img src={logo} alt="logo" />
         <IconsNav>
-          <IconButtons>
+          <IconButtons onClick={handleGoToProfile}>
             <User size={32} color={defaultTheme.COLORS.BLUE_300} />
           </IconButtons>
           <IconButtons onClick={handleSignOut}>
