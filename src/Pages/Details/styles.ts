@@ -114,3 +114,20 @@ export const SectionTitle = styled.div`
     font-weight: 900;
   }
 `;
+
+export const HowToDoSection = styled.section`
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  > p {
+    color: rgba(0, 0, 0, 0.68);
+
+    font-size: 1.5rem;
+
+    font-weight: 900;
+
+    margin-top: 2rem;
+  }
+`;
