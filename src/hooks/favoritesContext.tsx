@@ -35,6 +35,7 @@ function FavoritesProvider({ children }: FavoritesProviderProps) {
       alert("Essa receita já está na sua lista de favoritos");
     } else {
       const newFavsList = [...favsList, recipe];
+      localStorage.setItem('@aluchef:favs', JSON.stringify(newFavsList)); 
       setFavslist(newFavsList);
       alert("Receita adicionada na sua lista de favoritos");
     }
@@ -46,10 +47,6 @@ function FavoritesProvider({ children }: FavoritesProviderProps) {
       setFavslist(JSON.parse(list))
     }
 }, [])
-
-  useEffect(() => {
-    localStorage.setItem("@aluchef:favs", JSON.stringify(favsList));
-  }, [favsList]);
 
   return (
     <FavoritesContext.Provider value={{ favsList, addNewFavorite }}>
