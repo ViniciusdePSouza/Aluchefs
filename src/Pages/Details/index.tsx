@@ -8,6 +8,9 @@ import {
   IngredientsSection,
   PreviewSection,
   SectionTitle,
+  WineDescriptionDiv,
+  WineInfo,
+  WinesSection,
 } from "./styles";
 
 import { Heart } from "phosphor-react";
@@ -19,32 +22,48 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { BASE_URL, api } from "../../services/api";
 import { useFavs } from "../../hooks/favoritesContext";
+import { WineProps } from "../../@types/wines";
 
 interface RecipeProps {
-    id: number;
+  id: number;
   title: string;
   photo: string;
   ingredients: string[];
   description: string;
 }
 
+interface WinesInfoProps {
+  id: number;
+  name: string;
+  description: string;
+  photo: string;
+}
+
 export function Details() {
   const [recipe, setRecipe] = useState<RecipeProps>({} as RecipeProps);
+  const [winesId, setWinesId] = useState<number[]>([]);
+  const [wines, setWines] = useState<WinesInfoProps[]>([]);
 
-  const { addNewFavorite } = useFavs()
+  const { addNewFavorite } = useFavs();
 
-  function handleAddNewFavorite(){
+  function handleAddNewFavorite() {
     const newFavRecipe = {
-        id: recipe.id,
-        photo: recipe.photo,
-        title: recipe.title,
-    }
+      id: recipe.id,
+      photo: recipe.photo,
+      title: recipe.title,
+    };
 
-    addNewFavorite(newFavRecipe)
+    addNewFavorite(newFavRecipe);
   }
 
   async function fetchRecipeDetails() {
     const response = await api.get(`/api/recipes/${params.id}?populate=*`);
+
+    return response.data;
+  }
+
+  async function fetchWine(id: number) {
+    const response = await api.get(`/api/wines/${id}?populate=*`);
 
     return response.data;
   }
@@ -76,11 +95,36 @@ export function Details() {
         ingredients: ingredientsArray,
         description: data.attributes.description,
       };
+
+      const wines = data.attributes.wines.data;
+      const winesIdArray = wines.map((wine: WineProps) => wine.id);
+
+      setWinesId(winesIdArray);
       setRecipe(recipeDetails);
     }
 
     populateRecipeDetails();
   }, []);
+
+  useEffect(() => {
+    async function populateWines() {
+      const fetchWines = winesId.map((id: number) => fetchWine(id));
+      const winesArray = await Promise.all(fetchWines);
+
+      const wineInfo = winesArray.map((wine) => {
+        return {
+          id: wine.data.id,
+          name: wine.data.attributes.name,
+          description: wine.data.attributes.description,
+          photo: wine.data.attributes.photo.data.attributes.url,
+        };
+      });
+
+      setWines(wineInfo);
+    }
+
+    populateWines();
+  }, [])
 
   return (
     <Container>
@@ -115,6 +159,23 @@ export function Details() {
 
         <p>{recipe.description}</p>
       </HowToDoSection>
+
+      <WinesSection>
+        <SectionTitle>
+          <h2>Para Acompanhar</h2>
+        </SectionTitle>
+
+        {wines.length > 0 &&
+          wines.map((wine) => (
+            <WineInfo key={wine.id}>
+              <img src={`${BASE_URL}${wine.photo}`} alt="Foto do vinho" />
+              <WineDescriptionDiv key={wine.id}>
+                <h2>{wine.name}</h2>
+                <p>{wine.description}</p>
+              </WineDescriptionDiv>
+            </WineInfo>
+          ))}
+      </WinesSection>
     </Container>
   );
 }
