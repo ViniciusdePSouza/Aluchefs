@@ -35,6 +35,9 @@ export function Profile() {
   function handleGoToDetails(id: number) {
     navigate(`/details/${id}`);
   }
+  function handleGoToShoppingList() {
+    navigate('/shoppinglist');
+  }
 
   async function fetchUser() {
     const response = await api.get(`/api/users/${user.id}?populate=*`);
@@ -70,7 +73,7 @@ export function Profile() {
       </TitleDiv>
       <Nav>
         <NavButton>Criar Receita</NavButton>
-        <NavButton>Lista de compras</NavButton>
+        <NavButton onClick={handleGoToShoppingList}>Lista de compras</NavButton>
       </Nav>
 
       <FavoritesSection>
