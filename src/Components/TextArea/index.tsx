@@ -1,12 +1,16 @@
-import { TextareaHTMLAttributes } from "react";
+import { TextareaHTMLAttributes, forwardRef } from "react";
 import { Container } from "./styles";
 
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLInputElement> {
     placeholder: string;
 }
 
-export function TextArea({placeholder}: TextAreaProps) {
-    return <Container>
-        <textarea placeholder={placeholder}></textarea>
-    </Container>
-}
+export const TextArea = forwardRef<HTMLInputElement, TextAreaProps>(
+  ({ placeholder, ...rest }, ref) => {
+    return (
+      <Container>
+        <textarea placeholder={placeholder} ref={ref} {...rest}></textarea>
+      </Container>
+    );
+  }
+);

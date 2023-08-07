@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "../../Components/Input";
 import { TextArea } from "../../Components/TextArea";
 import {
@@ -8,7 +8,6 @@ import {
   SelectsDiv,
   SelectBox,
   Select,
-  SelectErrorMessage,
   InputFileGroup,
   InputFileLabel,
   InputFileControl,
@@ -35,6 +34,8 @@ const newRecipeSchema = z.object({
   title: z.string(),
   ingredients: z.string(),
   howToDo: z.string(),
+  category: z.string(),
+  wine: z.string(),
 });
 
 type NewRecipeData = z.infer<typeof newRecipeSchema>;
@@ -42,11 +43,7 @@ type NewRecipeData = z.infer<typeof newRecipeSchema>;
 export function CreateRecipe() {
   const [wines, setWines] = useState<WineProps[]>([]);
   const [categories, setCategories] = useState<CategoryProps[]>([]);
-  const [categoriesErrorMessage, setCategoriesErrorMessage] = useState(false);
-  const [winesErrorMessage, setWinesErrorMessage] = useState(false);
-
-  const [categoryValue, setCategoryValue] = useState("");
-  const [wineValue, setwineValue] = useState("");
+  const [photo, setPhoto] = useState("");
 
   async function fetchWines() {
     const response = api.get("/api/wines?populate=*");
@@ -63,7 +60,12 @@ export function CreateRecipe() {
   });
 
   async function handleCreateNewRecipe(data: NewRecipeData) {
+    if(!photo){
+      return console.log('deu rui mna foto')
+    }
+
     console.log(data);
+    console.log(photo)
   }
 
   async function fetchCategories() {
@@ -144,9 +146,7 @@ export function CreateRecipe() {
           <SelectBox>
             <Select
               aria-label="categoria do prato"
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setCategoryValue(e.target.value)
-              }
+              {...register('category')}
             >
               {categories &&
                 categories.map((category) => (
@@ -156,16 +156,11 @@ export function CreateRecipe() {
                 ))}
             </Select>
 
-            {categoriesErrorMessage && (
-              <SelectErrorMessage>campo obrigatório</SelectErrorMessage>
-            )}
           </SelectBox>
           <SelectBox>
             <Select
               aria-label="vinho para acompanhar"
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setwineValue(e.target.value)
-              }
+              {...register('wine')}
             >
               {wines &&
                 wines.map((wine) => (
@@ -175,15 +170,12 @@ export function CreateRecipe() {
                 ))}
             </Select>
 
-            {winesErrorMessage && (
-              <SelectErrorMessage>campo obrigatório</SelectErrorMessage>
-            )}
           </SelectBox>
         </SelectsDiv>
 
         <InputFileGroup>
           <InputFileLabel>Foto do prato</InputFileLabel>
-          <InputFileControl type="file" />
+          <InputFileControl type="file" onChange={e => setPhoto(e.target.value)}/>
         </InputFileGroup>
 
         <Button title="Criar Receita" isLoading={isSubmitting} type='submit'/>
