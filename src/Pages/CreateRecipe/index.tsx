@@ -31,11 +31,36 @@ interface CategoryProps {
 }
 
 const newRecipeSchema = z.object({
-  title: z.string(),
-  ingredients: z.string(),
-  howToDo: z.string(),
-  category: z.string(),
-  wine: z.string(),
+  title: z
+    .string()
+    .nonempty()
+    .refine((value) => value.trim() !== "", {
+      message: "Esse campo é obrigatório",
+    }),
+  ingredients: z
+    .string()
+    .nonempty()
+    .refine((value) => value.trim() !== "", {
+      message: "Esse campo é obrigatório",
+    }),
+  howToDo: z
+    .string()
+    .nonempty()
+    .refine((value) => value.trim() !== "", {
+      message: "Esse campo é obrigatório",
+    }),
+  category: z
+    .string()
+    .nonempty()
+    .refine((value) => value.trim() !== "", {
+      message: "Esse campo é obrigatório",
+    }),
+  wine: z
+    .string()
+    .nonempty()
+    .refine((value) => value.trim() !== "", {
+      message: "Esse campo é obrigatório",
+    }),
 });
 
 type NewRecipeData = z.infer<typeof newRecipeSchema>;
@@ -60,12 +85,12 @@ export function CreateRecipe() {
   });
 
   async function handleCreateNewRecipe(data: NewRecipeData) {
-    if(!photo){
-      return console.log('deu rui mna foto')
+    if (!photo) {
+      return console.log("deu rui mna foto");
     }
 
     console.log(data);
-    console.log(photo)
+    console.log(photo);
   }
 
   async function fetchCategories() {
@@ -144,10 +169,8 @@ export function CreateRecipe() {
 
         <SelectsDiv>
           <SelectBox>
-            <Select
-              aria-label="categoria do prato"
-              {...register('category')}
-            >
+            <Select aria-label="categoria do prato" {...register("category")}>
+              <option>Escolha a categoria</option>
               {categories &&
                 categories.map((category) => (
                   <option key={category.id} value={category.name}>
@@ -155,13 +178,10 @@ export function CreateRecipe() {
                   </option>
                 ))}
             </Select>
-
           </SelectBox>
           <SelectBox>
-            <Select
-              aria-label="vinho para acompanhar"
-              {...register('wine')}
-            >
+            <Select aria-label="vinho para acompanhar" {...register("wine")}>
+              <option>Escolha o vinho</option>
               {wines &&
                 wines.map((wine) => (
                   <option key={wine.id} value={wine.name}>
@@ -169,16 +189,18 @@ export function CreateRecipe() {
                   </option>
                 ))}
             </Select>
-
           </SelectBox>
         </SelectsDiv>
 
         <InputFileGroup>
           <InputFileLabel>Foto do prato</InputFileLabel>
-          <InputFileControl type="file" onChange={e => setPhoto(e.target.value)}/>
+          <InputFileControl
+            type="file"
+            onChange={(e) => setPhoto(e.target.value)}
+          />
         </InputFileGroup>
 
-        <Button title="Criar Receita" isLoading={isSubmitting} type='submit'/>
+        <Button title="Criar Receita" isLoading={isSubmitting} type="submit" />
       </FormNewRecipe>
     </Container>
   );
