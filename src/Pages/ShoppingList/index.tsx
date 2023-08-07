@@ -36,8 +36,7 @@ export function ShoppingList() {
   }
 
   function addToCartList() {
-    setItem('')
-    addItem(item);
+      addItem(item);
   }
 
   function handleGoBack() {

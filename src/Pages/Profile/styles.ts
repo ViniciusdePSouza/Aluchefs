@@ -1,6 +1,8 @@
 import { styled } from "styled-components";
 
 export const Container = styled.div`
+  width: 100%;
+  max-width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -81,10 +83,12 @@ export const Nav = styled.nav`
 
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  gap: 1.5rem;
 
   background-color: ${({ theme }) => theme.COLORS.PINK_300};
   padding: 1rem;
+
+  overflow-x: auto;
 `;
 
 export const NavButton = styled.button`
@@ -94,7 +98,7 @@ export const NavButton = styled.button`
 
   color: ${({ theme }) => theme.COLORS.BLUE_300};
 
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: 900;
 
   border-radius: 16px;

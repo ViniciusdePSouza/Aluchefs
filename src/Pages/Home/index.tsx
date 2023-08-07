@@ -142,7 +142,7 @@ export function Home() {
           photo: recipes.attributes.thumb.data.attributes.url,
           title: recipes.attributes.title,
           categoryName: recipes.attributes.category.data,
-        };
+        };  
       });
       setRecipes(recipesArray);
     }

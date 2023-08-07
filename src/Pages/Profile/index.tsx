@@ -35,6 +35,9 @@ export function Profile() {
   function handleGoToDetails(id: number) {
     navigate(`/details/${id}`);
   }
+  function handleGoToWines() {
+    navigate('/wines');
+  }
   function handleGoToShoppingList() {
     navigate('/shoppinglist');
   }
@@ -73,7 +76,8 @@ export function Profile() {
       </TitleDiv>
       <Nav>
         <NavButton>Criar Receita</NavButton>
-        <NavButton onClick={handleGoToShoppingList}>Lista de compras</NavButton>
+        <NavButton onClick={handleGoToShoppingList}>Lista de compras</NavButton> 
+        <NavButton onClick={handleGoToWines}>Vinhos</NavButton> 
       </Nav>
 
       <FavoritesSection>

@@ -124,7 +124,7 @@ export function Details() {
     }
 
     populateWines();
-  }, []);
+  }, [winesId]);
 
   return (
     <Container>
