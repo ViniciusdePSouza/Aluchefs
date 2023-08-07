@@ -5,6 +5,7 @@ import { Details } from '../Pages/Details'
 import { Profile } from '../Pages/Profile'
 import { ShoppingList } from '../Pages/ShoppingList'
 import { Wines } from '../Pages/Wines/wines'
+import { CreateRecipe } from '../Pages/CreateRecipe'
 
 export function AppRoutes() {
     return(
@@ -14,6 +15,7 @@ export function AppRoutes() {
             <Route path='/profile' element={<Profile/>}/>
             <Route path='/shoppinglist' element={<ShoppingList/>}/>
             <Route path='/wines' element={<Wines/>}/>
+            <Route path='/createrecipe' element={<CreateRecipe/>}/>
         </Routes>
     )
 }

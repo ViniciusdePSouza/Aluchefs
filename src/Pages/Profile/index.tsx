@@ -41,6 +41,9 @@ export function Profile() {
   function handleGoToShoppingList() {
     navigate('/shoppinglist');
   }
+  function handleGoNewRecipe() {
+    navigate('/createrecipe');
+  }
 
   async function fetchUser() {
     const response = await api.get(`/api/users/${user.id}?populate=*`);
@@ -75,7 +78,7 @@ export function Profile() {
         <h2>Meu livro de Receitas</h2>
       </TitleDiv>
       <Nav>
-        <NavButton>Criar Receita</NavButton>
+        <NavButton onClick={handleGoNewRecipe}>Criar Receita</NavButton>
         <NavButton onClick={handleGoToShoppingList}>Lista de compras</NavButton> 
         <NavButton onClick={handleGoToWines}>Vinhos</NavButton> 
       </Nav>
