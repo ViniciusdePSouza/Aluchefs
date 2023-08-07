@@ -10,15 +10,16 @@ interface itemCheckProps {
 }
 
 export function ItemList({ title }: itemCheckProps) {
-    const { deleteItem } = useShoppingList()
+  const { deleteItem } = useShoppingList();
 
-    function deleteGrocery(item: string) {
-        deleteItem(item)
-    }
-
+  function deleteGrocery(item: string) {
+    deleteItem(item);
+  }
   return (
     <Container>
-      <img src={check} alt="" />
+      <IconButton >
+        <img src={check} alt="" />
+      </IconButton>
       <p>{title}</p>
 
       <IconButton onClick={() => deleteGrocery(title)}>
