@@ -30,7 +30,7 @@ export function Wines() {
       const response = await fetchWines();
 
      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const winesArray = response.data.data.map((wine) => {
+      const winesArray = response.data.data.map((wine: any) => {
         return {
           id: wine.id,
           name: wine.attributes.name,
