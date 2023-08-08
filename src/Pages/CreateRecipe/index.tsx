@@ -84,13 +84,32 @@ export function CreateRecipe() {
     resolver: zodResolver(newRecipeSchema),
   });
 
-  async function handleCreateNewRecipe(data: NewRecipeData) {
+  async function handleCreateNewRecipe({
+    category,
+    howToDo,
+    ingredients,
+    title,
+    wine,
+  }: NewRecipeData) {
     if (!photo) {
       return console.log("deu rui mna foto");
     }
 
-    console.log(data);
-    console.log(photo);
+    try {
+      await api.post("/api/recipes", {
+        data: {
+          title,
+          description: howToDo,
+          ingredients,
+          wines: [{ id: wine }],
+          category: [{ id: category }],
+        },
+      });
+
+      alert("receita criada");
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   async function fetchCategories() {
@@ -173,7 +192,7 @@ export function CreateRecipe() {
               <option>Escolha a categoria</option>
               {categories &&
                 categories.map((category) => (
-                  <option key={category.id} value={category.name}>
+                  <option key={category.id} value={category.id}>
                     {category.name}
                   </option>
                 ))}
@@ -184,7 +203,7 @@ export function CreateRecipe() {
               <option>Escolha o vinho</option>
               {wines &&
                 wines.map((wine) => (
-                  <option key={wine.id} value={wine.name}>
+                  <option key={wine.id} value={wine.id}>
                     {wine.name}
                   </option>
                 ))}

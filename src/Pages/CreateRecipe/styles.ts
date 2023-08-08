@@ -105,17 +105,14 @@ export const InputFileLabel = styled(Form.Label)`
   font-family: "Roboto", sans-serif;
   font-weight: 700;
   font-size: 1.2rem;
+  margin-bottom: 0.5rem;
 `;
 
 export const InputFileControl = styled(Form.Control)`
-  > button {
-    all: unset;
-  }
-
   font-family: "Roboto", sans-serif;
   font-weight: 400;
   font-size: 1.2rem;
-  background-color: ${({ theme }) => theme.COLORS.WHITE_100};
+  background-color: ${({ theme }) => theme.COLORS.BLUE_100};
   padding: 1rem;
 
   border-radius: 8px;
