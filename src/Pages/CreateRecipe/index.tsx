@@ -113,8 +113,6 @@ export function CreateRecipe() {
       formData.append("field", "thumb");
       formData.append("files", photo);
 
-      console.log(formData);
-
       await api.post("/api/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
