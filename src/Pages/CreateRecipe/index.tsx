@@ -92,7 +92,7 @@ export function CreateRecipe() {
     wine,
   }: NewRecipeData) {
     if (!photo) {
-      return console.log("deu rui mna foto");
+      return alert("é necessária uma foto para a sua receita");
     }
 
     try {
