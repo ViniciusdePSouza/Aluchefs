@@ -134,12 +134,11 @@ export function Home() {
   useEffect(() => {
     async function populateRecipes() {
       const response = await fetchRecipes();
-
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const recipesArray = response.data.map((recipes: any) => {
         return {
           id: recipes.id,
-          photo: recipes.attributes.thumb.data.attributes.url,
+          photo: recipes.attributes.thumb.data?.attributes.url,
           title: recipes.attributes.title,
           categoryName: recipes.attributes.category.data,
         };  

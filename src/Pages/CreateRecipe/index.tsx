@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Input } from "../../Components/Input";
 import { TextArea } from "../../Components/TextArea";
 import {
@@ -68,7 +68,7 @@ type NewRecipeData = z.infer<typeof newRecipeSchema>;
 export function CreateRecipe() {
   const [wines, setWines] = useState<WineProps[]>([]);
   const [categories, setCategories] = useState<CategoryProps[]>([]);
-  const [photo, setPhoto] = useState("");
+  const [photo, setPhoto] = useState<File | null>(null);
 
   async function fetchWines() {
     const response = api.get("/api/wines?populate=*");
@@ -96,7 +96,7 @@ export function CreateRecipe() {
     }
 
     try {
-      await api.post("/api/recipes", {
+      const response = await api.post("/api/recipes", {
         data: {
           title,
           description: howToDo,
@@ -106,9 +106,32 @@ export function CreateRecipe() {
         },
       });
 
+      const formData = new FormData();
+
+      formData.append("ref", "api::recipe.recipe");
+      formData.append("refId", response.data.data.id);
+      formData.append("field", "thumb");
+      formData.append("files", photo);
+
+      console.log(formData);
+
+      await api.post("/api/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
       alert("receita criada");
     } catch (err) {
       console.log(err);
+    }
+  }
+
+  function handleFileChanges(e: ChangeEvent<HTMLInputElement>) {
+    const selectedFile = e.target.files && e.target.files[0];
+
+    if (selectedFile) {
+      setPhoto(selectedFile);
     }
   }
 
@@ -215,9 +238,11 @@ export function CreateRecipe() {
           <InputFileLabel>Foto do prato</InputFileLabel>
           <InputFileControl
             type="file"
-            onChange={(e) => setPhoto(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => handleFileChanges(e)}
           />
         </InputFileGroup>
+
+
 
         <Button title="Criar Receita" isLoading={isSubmitting} type="submit" />
       </FormNewRecipe>
