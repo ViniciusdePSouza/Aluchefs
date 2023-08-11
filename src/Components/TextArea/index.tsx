@@ -1,11 +1,11 @@
 import { TextareaHTMLAttributes, forwardRef } from "react";
 import { Container } from "./styles";
 
-interface TextAreaProps extends TextareaHTMLAttributes<TextareaHTMLAttributes> {
+interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
     placeholder: string;
 }
 
-export const TextArea = forwardRef<TextareaHTMLAttributes, TextAreaProps>(
+export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
   ({ placeholder, ...rest }, ref) => {
     return (
       <Container>
